@@ -87,10 +87,8 @@ BehaviorPlanner::CarState BehaviorPlanner::determineLaneState(vector<vector<doub
             
         }
         //if lane change not possible, keep following forward car at its speed
-        std::cout << "KLS area " << std::endl;
         auto sameLaneCars = laneMap[lane];
         double min_s = 1000.0;
-        std::cout << "KLS area: num cars in same lane " << sameLaneCars.size() << std::endl;
         
         if(sameLaneCars.size() == 1)
         {
@@ -98,7 +96,7 @@ BehaviorPlanner::CarState BehaviorPlanner::determineLaneState(vector<vector<doub
             auto ahead_car_x_vel = sameLaneCars[0][3];
             auto ahead_car_y_vel = sameLaneCars[0][4];
             double ahead_car_vel = sqrt(ahead_car_x_vel * ahead_car_x_vel + ahead_car_y_vel * ahead_car_y_vel);
-            std::cout << "KLS area: adj car vel " << ahead_car_vel << std::endl;
+            //std::cout << "KLS area: adj car vel " << ahead_car_vel << std::endl;
             this->carAheadVelocity = (ahead_car_vel < ref_v) ? ahead_car_vel: ref_v;
         }
         else
@@ -123,7 +121,6 @@ BehaviorPlanner::CarState BehaviorPlanner::determineLaneState(vector<vector<doub
                 
             }
         }
-        std::cout << "KLS area vlocity " << this->carAheadVelocity << std::endl;
         this->egoState = KLS;
         return KLS;
         

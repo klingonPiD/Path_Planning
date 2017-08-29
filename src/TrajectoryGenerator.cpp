@@ -84,7 +84,7 @@ void TrajectoryGenerator::fitSplineToAnchorPoints(TrajectoryGenerator::anchorPoi
     double psi = -ref_yaw;
     for(int i=0; i < anchor_pts.anchor_ptsx.size();i++)
     {
-        // Note: Subtracting px and py from the way points has the effect
+        // Note: Subtracting ref_x and ref_y from the way points has the effect
         // of centering the vehicle at origin. Makes the math easier.
         double trans_x = anchor_pts.anchor_ptsx[i] - ref_x;
         double trans_y = anchor_pts.anchor_ptsy[i] - ref_y;
@@ -136,8 +136,7 @@ void TrajectoryGenerator::generatePath(BehaviorPlanner::CarState egoState, doubl
             target_v -= Utility::speed_delta;
         }
     }
-    //target_v = ref_v;
-    
+
     double num_points =  target_d/(Utility::delta_t * target_v);
     //std::cout << "num points " << num_points << std::endl;
     double x_inc = 0.0;
@@ -147,10 +146,13 @@ void TrajectoryGenerator::generatePath(BehaviorPlanner::CarState egoState, doubl
         x_inc += (target_x / num_points);
         double y_inc = anchor_spline(x_inc);
         
-        //todo: describe this
+        //The anchor points were originally translated and rotated to create a new frame of
+        // reference where the ego car was at the center.
+        // Now we have to undo the transformation
+        //Unrotate
         double x_future = cos(psi)*x_inc - sin(psi)*y_inc;
         double y_future = sin(psi)*x_inc + cos(psi)*y_inc;
-        
+        //Untranslate
         x_future += ref_x;
         y_future += ref_y;
         

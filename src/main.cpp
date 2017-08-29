@@ -138,7 +138,7 @@ int main() {
                 lane += 1;
             }
             
-            std::cout << "lane state is " <<  changeLaneState << " "<< "lane num is " << lane << std::endl;
+            //std::cout << "lane state is " <<  changeLaneState << " "<< "lane num is " << lane << std::endl;
 
             //Trajectory generator
             // Use splines to generate smooth trajectories
